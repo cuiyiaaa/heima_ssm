@@ -126,7 +126,8 @@
 	href="${pageContext.request.contextPath}/plugins/bootstrap-slider/slider.css">
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<%--skin-blue-light--%>
+<body class="hold-transition skin-blue-light sidebar-mini">
 
 	<div class="wrapper">
 

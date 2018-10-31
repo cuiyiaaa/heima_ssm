@@ -25,6 +25,22 @@
         <property name="dataSource" ref="dataSource"/>
         <!--扫描pojo包，给包下的所有pojo配置别名-->
         <property name="typeAliasesPackage" value="com.itheima.ssm.domain"/>
+        <property name="plugins">
+            <array>
+                <!--传入插件的对象-->
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <!--指定使用的数据库-->
+                            <prop key="helperDialect">oracle</prop>
+                            <!--分页合理化参数-->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+
     </bean>
 
     <!--扫描接口包路径，生成包下所有接口的代理对象，并且放入Spring容器中-->
