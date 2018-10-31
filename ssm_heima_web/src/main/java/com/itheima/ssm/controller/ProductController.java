@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -13,15 +14,49 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-
     @Autowired
     private IProductService service;
 
     @RequestMapping("/findAll")
-    public String findAll(Model model) throws Exception {
-        List<Product> list = service.findAll();
-        model.addAttribute("productList", list);
+    public ModelAndView findAll() throws Exception {
+        ModelAndView mv = new ModelAndView();
 
-        return "product-list";
+        //查询产品信息，并存入ModelAndView中
+        List<Product> list = service.findAll();
+        mv.addObject("productList", list);
+
+        //跳转到product-list页面
+        mv.setViewName("product-list");
+        return mv;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
