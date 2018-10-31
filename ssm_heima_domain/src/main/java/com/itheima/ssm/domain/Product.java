@@ -16,4 +16,18 @@ public class Product {
     private String productDesc; // 产品描述
     private Integer productStatus; // 状态 0 关闭 1 开启
     private String productStatusStr;
+
+    public String getProductStatusStr() {
+        if (productStatus != null) {
+            if (productStatus == 0) {
+                productStatusStr = "关闭";
+            }
+            if (productStatus == 1) {
+                productStatusStr = "开启";
+            }
+        } else {
+            productStatusStr = "异常";
+        }
+        return productStatusStr;
+    }
 }
