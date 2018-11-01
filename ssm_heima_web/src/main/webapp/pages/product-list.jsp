@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <title>数据 - AdminLTE2定制版</title>
+    <title>黑马旅游网后台管理系统</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 

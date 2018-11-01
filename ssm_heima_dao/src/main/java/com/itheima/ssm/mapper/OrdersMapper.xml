@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.mapper.OrdersMapper">
+
+    <!--订单查询关系映射-->
+    <resultMap id="orders_map" type="Orders">
+        <id property="id" column="id"></id>
+        <result property="orderNum" column="orderNum"></result>
+        <result property="orderTime" column="orderTime"></result>
+        <result property="orderStatus" column="orderStatus"></result>
+
+        <association property="product" column="productId"
+                     select="com.itheima.ssm.mapper.ProductMapper.findProductById"></association>
+    </resultMap>
+
+    <!--订单详细信息关系映射-->
+    <resultMap id="orderDetails_Map" type="Orders" extends="orders_map">
+        <result property="payType" column="payType"></result>
+        <result property="orderDesc" column="orderDesc"></result>
+        <result property="peopleCount" column="peopleCount"></result>
+
+        <association property="member" column="memberId"
+                     select="com.itheima.ssm.mapper.MemberMapper.findMemberById"></association>
+        <collection property="travellers" column="id"
+                    select="com.itheima.ssm.mapper.TravellerMapper.findTravellerById"></collection>
+    </resultMap>
+
+    <!--查询所有订单信息-->
+    <select id="findOrdersAll" resultMap="orders_map">
+        SELECT * FROM orders
+    </select>
+
+    <!--根据id查询订单详细信息-->
+    <select id="findOrdersById" parameterType="java.lang.String" resultMap="orderDetails_Map">
+        SELECT * FROM orders WHERE ID = #{id}
+    </select>
+</mapper>

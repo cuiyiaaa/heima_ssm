@@ -17,9 +17,9 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper mapper;
 
     @Override
-    public List<Product> findAll(Integer page, Integer size) throws Exception {
+    public List<Product> findProductAll(Integer page, Integer size) throws Exception {
         PageHelper.startPage(page, size);
-        return mapper.findAll();
+        return mapper.findProductAll();
     }
 
     @Override

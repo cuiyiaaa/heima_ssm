@@ -210,9 +210,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <!--当前所有的java代码使用1.9-->
-                    <target>1.9</target>
+                    <target>1.8</target>
                     <!--编译后的class文件使用1.9-->
-                    <source>1.9</source>
+                    <source>1.8</source>
                     <!--编码-->
                     <encoding>UTF-8</encoding>
                 </configuration>

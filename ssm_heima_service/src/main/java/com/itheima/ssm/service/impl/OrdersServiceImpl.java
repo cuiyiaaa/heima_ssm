@@ -16,9 +16,14 @@ public class OrdersServiceImpl implements IOrdersService {
     private OrdersMapper mapper;
 
     @Override
-    public List<Orders> findAll(Integer page,Integer size) throws Exception {
+    public List<Orders> findOrdersAll(Integer page, Integer size) throws Exception {
         //参数 pageNum是页码值，参数pageSize代表每页显示条数
         PageHelper.startPage(page, size);  //必须写在真正去调用分页代码之前
-        return mapper.findAll();
+        return mapper.findOrdersAll();
+    }
+
+    @Override
+    public Orders findOrdersById(String id) {
+        return mapper.findOrdersById(id);
     }
 }

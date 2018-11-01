@@ -12,5 +12,12 @@ public interface IOrdersService {
      * @return
      * @throws Exception
      */
-    List<Orders> findAll(Integer page,Integer size) throws Exception;
+    List<Orders> findOrdersAll(Integer page,Integer size) throws Exception;
+
+    /**
+     * 根据ID对应的订单详情
+     * @param id
+     * @return
+     */
+    Orders findOrdersById(String id);
 }

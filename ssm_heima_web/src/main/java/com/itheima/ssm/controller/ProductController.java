@@ -32,7 +32,7 @@ public class ProductController {
         ModelAndView mv = new ModelAndView();
 
         //查询产品信息，并存入ModelAndView中
-        List<Product> list = service.findAll(page, size);
+        List<Product> list = service.findProductAll(page, size);
 
         PageInfo pageInfo = new PageInfo(list);
         System.out.println(pageInfo);

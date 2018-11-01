@@ -12,7 +12,7 @@ public interface IProductService {
      * @return
      * @throws Exception
      */
-    List<Product> findAll(Integer page, Integer size) throws Exception;
+    List<Product> findProductAll(Integer page, Integer size) throws Exception;
 
     /**
      * 添加产品信息

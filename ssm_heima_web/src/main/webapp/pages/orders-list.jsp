@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <title>数据 - AdminLTE2定制版</title>
+    <title>黑马旅游网后台管理系统</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 
@@ -245,7 +245,7 @@
                                     <td class="text-center">
                                         <button type="button" class="btn bg-olive btn-xs">订单</button>
                                         <button type="button" class="btn bg-olive btn-xs"
-                                                onclick="location.href='${pageContext.request.contextPath}/orders/findById.do?id=${orders.id}'">
+                                                onclick="location.href='${pageContext.request.contextPath}/orders/findById/${orders.id}'">
                                             详情
                                         </button>
                                         <button type="button" class="btn bg-olive btn-xs">编辑</button>
