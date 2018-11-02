@@ -11,7 +11,7 @@
     <!--重新指定spring配置文件的路径-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/applicationContext.xml</param-value>
+        <param-value>classpath:spring/applicationContext.xml,classpath:spring/spring-security.xml</param-value>
     </context-param>
 
     <!--配置spring核心监听器，加载spring容器-->
@@ -30,6 +30,17 @@
     </filter>
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--Spring Security-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <!--DelegatingFilterProxy是一个过滤器，但是它并没有做什么事情，真正做事情的是一个叫delegate的过滤器-->
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
