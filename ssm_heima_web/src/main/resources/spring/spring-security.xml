@@ -30,7 +30,10 @@
              authentication-failure-url：权限不足跳转的页面
              authentication-success-forward-url：登录成功跳转的页面
          -->
+
         <security:form-login
+                username-parameter="username"
+                password-parameter="password"
                 login-page="/login.jsp"
                 login-processing-url="/login"
                 default-target-url="/index.jsp"
@@ -50,12 +53,12 @@
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="userService">
             <!-- 配置加密的方式 -->
-            <!--<security:password-encoder ref="passwordEncoder"/>-->
+            <security:password-encoder ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
 
     <!-- 配置加密类 -->
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+   <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
 </beans>
 

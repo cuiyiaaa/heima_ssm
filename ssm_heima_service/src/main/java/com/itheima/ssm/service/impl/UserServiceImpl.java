@@ -1,13 +1,17 @@
 package com.itheima.ssm.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.itheima.ssm.domain.Role;
 import com.itheima.ssm.domain.UserInfo;
 import com.itheima.ssm.mapper.UsersMapper;
 import com.itheima.ssm.service.IUserService;
+import com.itheima.ssm.utils.BCryptPasswordEncoderUtils;
+import org.omg.CORBA.MARSHAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +21,30 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UsersMapper mapper;
+
+    //密码加密类
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public List<UserInfo> findUserInfoAll(Integer page, Integer size) throws Exception {
+        PageHelper.startPage(page, size);
+        return mapper.findUserInfoAll();
+    }
+
+    @Override
+    public void saveUserInfo(UserInfo userInfo) throws Exception {
+        //将密码加密
+        String encodePwd = bCryptPasswordEncoder.encode(userInfo.getPassword());
+        userInfo.setPassword(encodePwd);
+
+        mapper.saveUserInfo(userInfo);
+    }
+
+    @Override
+    public UserInfo findUserInfoById(String id) throws Exception {
+        return mapper.findUserInfoById(id);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,7 +63,7 @@ public class UserServiceImpl implements IUserService {
              * Collection<? extends GrantedAuthority> authorities：用户的角色信息集合
              */
             //将用户信息存入Spring Security框架的User中
-            user = new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoleList()));
+            user = new User(userInfo.getUsername(), userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoleList()));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,19 +1,30 @@
 package com.itheima.ssm.domain;
 
 import com.itheima.ssm.utils.DateFormatUtils;
+import com.itheima.ssm.validation.ValidGroup1;
+import com.itheima.ssm.validation.ValidGroup2;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
-
 
 public class Product {
     private String id; // 主键
 
+    //产品编号不能为空
+    @NotEmpty(message = "{product.productNum.isEmpty}", groups = {ValidGroup2.class})
     private String productNum; // 编号 唯一
+
+    //对产品品名称进行限制
+    //groups:此校验属于哪个分组，groups可以定义多个
+    @Size(min = 10, max = 30, message = "{product.productName.length}", groups = {ValidGroup1.class})
     private String productName; // 名称
+
     private String cityName; // 出发城市
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date departureTime; // 出发时间
     private String departureTimeStr;
     private Double productPrice; // 产品价格
@@ -82,8 +93,6 @@ public class Product {
         this.departureTime = departureTime;
     }
 
-
-
     public void setDepartureTimeStr(String departureTimeStr) {
         this.departureTimeStr = departureTimeStr;
     }
@@ -111,7 +120,6 @@ public class Product {
     public void setProductStatus(Integer productStatus) {
         this.productStatus = productStatus;
     }
-
 
     public void setProductStatusStr(String productStatusStr) {
         this.productStatusStr = productStatusStr;

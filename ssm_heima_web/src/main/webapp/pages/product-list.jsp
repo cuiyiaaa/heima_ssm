@@ -333,7 +333,7 @@
                                 </c:choose>
 
                                 <c:forEach var="i" begin="${begin}" end="${end}">
-                                    <li>
+                                    <li class="${pageInfo.pageNum==i?"active":""}">
                                         <a href="${pageContext.request.contextPath}/product/findAll?page=${i}&size=${pageInfo.pageSize}">${i}</a>
                                     </li>
                                 </c:forEach>
@@ -470,6 +470,8 @@
     $(function () {
         //设置下拉列表与每页显示的页数同步
         $('#select_PageSize').val(${pageInfo.pageSize});
+
+        $('.product').attr('id','admin-datalist');
     });
 
     //当下列列表变化时，每页的页数也随之变化

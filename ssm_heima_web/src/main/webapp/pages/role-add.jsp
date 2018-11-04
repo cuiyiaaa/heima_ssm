@@ -6,7 +6,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>黑马旅游网后台管理系统</title>
+    <title>数据 - AdminLTE2定制版</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 
@@ -60,6 +60,10 @@
           href="${pageContext.request.contextPath}/plugins/bootstrap-slider/slider.css">
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+
+    <style type="text/css">
+        input.error { border: 1px solid red; }
+    </style>
 </head>
 
 <body class="hold-transition skin-blue-light sidebar-mini">
@@ -79,81 +83,47 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                产品管理
-                <small>产品表单</small>
+                角色管理
+                <small>角色表单</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/index.jsp"><i
                         class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a
-                        href="${pageContext.request.contextPath}/product/findAll">产品管理</a></li>
-                <li class="active">产品表单</li>
+                <li><a href="${pageContext.request.contextPath}/role/findAll">角色管理</a></li>
+                <li class="active">角色表单</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
 
-        <form action="${pageContext.request.contextPath}/product/save" method="post">
+        <form action="${pageContext.request.contextPath}/role/save"
+              method="post" id="myForm">
             <!-- 正文区域 -->
             <section class="content"> <!--产品信息-->
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">产品信息</div>
+                    <div class="panel-heading">角色信息</div>
                     <div class="row data-type">
 
-                        <div class="col-md-2 title">产品编号</div>
+                        <div class="col-md-2 title">角色名称</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" name="productNum"
-                                   placeholder="产品编号" value="">
+                            <input type="text" class="form-control required" name="roleName"
+                                   placeholder="角色名称" value="">
                         </div>
-                        <div class="col-md-2 title">产品名称</div>
+                        <div class="col-md-2 title">角色描述</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" name="productName"
-                                   placeholder="产品名称" value="">
-                        </div>
-                        <div class="col-md-2 title">出发时间</div>
-                        <div class="col-md-4 data">
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right"
-                                       id="datepicker-a3" name="departureTime">
-                            </div>
+                            <input type="text" class="form-control required" name="roleDesc"
+                                   placeholder="角色描述" value="">
                         </div>
 
 
-                        <div class="col-md-2 title">出发城市</div>
-                        <div class="col-md-4 data">
-                            <input type="text" class="form-control" name="cityName"
-                                   placeholder="出发城市" value="">
-                        </div>
-
-                        <div class="col-md-2 title">产品价格</div>
-                        <div class="col-md-4 data">
-                            <input type="text" class="form-control" placeholder="产品价格"
-                                   name="productPrice" value="">
-                        </div>
-
-                        <div class="col-md-2 title">产品状态</div>
-                        <div class="col-md-4 data">
-                            <select class="form-control select2" style="width: 100%"
-                                    name="productStatus">
-                                <option value="0" selected="selected">关闭</option>
-                                <option value="1">开启</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2 title rowHeight2x">其他信息</div>
-                        <div class="col-md-10 data rowHeight2x">
-							<textarea class="form-control" rows="3" placeholder="其他信息"
-                                      name="productDesc"></textarea>
-                        </div>
                     </div>
                 </div>
                 <!--订单信息/--> <!--工具栏-->
                 <div class="box-tools text-center">
                     <button type="submit" class="btn bg-maroon">保存</button>
-                    <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
+                    <button type="button" class="btn bg-default"
+                            onclick="history.back(-1);">返回
+                    </button>
                 </div>
                 <!--工具栏/--> </section>
             <!-- 正文区域 /-->
@@ -260,7 +230,8 @@
         src="${pageContext.request.contextPath}/plugins/bootstrap-slider/bootstrap-slider.js"></script>
 <script
         src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
-
+<script src="${pageContext.request.contextPath}/plugins/jQuery/jquery.validate.min.js"></script>
+<script src="${pageContext.request.contextPath}/plugins/jQuery/messages_cn.js"></script>
 <script>
     $(document).ready(function () {
         // 选择框
@@ -271,10 +242,14 @@
             locale: 'zh-CN'
         });
 
-        $('.product').prop('id','admin-datalist');
+
+        $('.role').prop('id','admin-datalist');
 
         // 激活导航位置
         setSidebarActive("admin-datalist");
+
+        $('#myForm').validate();
+
     });
 
     // 设置激活菜单
@@ -286,24 +261,6 @@
         }
     }
 
-    $(document).ready(function () {
-        $('#datepicker-a3').datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
-            autoclose: true,
-            todayBtn: true,
-            language: "zh-CN"
-        });
-    });
-
-    $(document).ready(function () {
-        // 激活导航位置
-        setSidebarActive("order-manage");
-        $("#datepicker-a3").datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
-
-        });
-
-    });
 </script>
 
 

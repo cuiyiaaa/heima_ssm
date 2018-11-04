@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -10,7 +11,7 @@
                      class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>xxx</p>
+                <p><sec:authentication property="name"/></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
             </div>
         </div>
@@ -26,27 +27,28 @@
                 <span>系统管理</span> <span class="pull-right-container"> <i
                         class="fa fa-angle-left pull-right"></i>
 				</span>
-
-
             </a>
                 <ul class="treeview-menu">
-
-                    <li><a
-                            href="${pageContext.request.contextPath}/user/findAll"> <i
-                            class="fa fa-circle-o"></i> 用户管理
-                    </a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/role/findAll"> <i
-                            class="fa fa-circle-o"></i> 角色管理
-                    </a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/permission/findAll">
-                        <i class="fa fa-circle-o"></i> 资源权限管理
-                    </a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/sysLog/findAll"> <i
-                            class="fa fa-circle-o"></i> 访问日志
-                    </a></li>
+                    <li class="userInfo">
+                        <a href="${pageContext.request.contextPath}/user/findAll?page=1&size=4"> <i
+                                class="fa fa-circle-o"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="role">
+                        <a href="${pageContext.request.contextPath}/role/findAll?page=1&size=4"> <i
+                                class="fa fa-circle-o"></i> 角色管理
+                        </a>
+                    </li>
+                    <li class="permssion">
+                        <a href="${pageContext.request.contextPath}/permission/findAll">
+                            <i class="fa fa-circle-o"></i> 资源权限管理
+                        </a>
+                    </li>
+                    <li class="sysLog">
+                        <a href="${pageContext.request.contextPath}/sysLog/findAll"> <i
+                                class="fa fa-circle-o"></i> 访问日志
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="treeview"><a href="#"> <i class="fa fa-cube"></i>
@@ -56,18 +58,16 @@
             </a>
                 <ul class="treeview-menu">
 
-                    <li><a
-                            href="${pageContext.request.contextPath}/product/findAll?page=1&size=4">
+                    <li class="product"><a href="${pageContext.request.contextPath}/product/findAll?page=1&size=4">
                         <i class="fa fa-circle-o"></i> 产品管理
                     </a></li>
-                    <li><a
-                            href="${pageContext.request.contextPath}/orders/findAll?page=1&size=4"> <i
+                    <li class="orders"><a href="${pageContext.request.contextPath}/orders/findAll?page=1&size=4"> <i
                             class="fa fa-circle-o"></i> 订单管理
                     </a></li>
 
                 </ul>
             </li>
-
+            <%--admin-datalist--%>
         </ul>
     </section>
     <!-- /.sidebar -->

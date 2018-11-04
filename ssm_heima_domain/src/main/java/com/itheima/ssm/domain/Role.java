@@ -10,7 +10,6 @@ public class Role {
     private String roleName;
     private String roleDesc;
 
-    private List<Permission> permissions;
-    private List<UserInfo> users;
-
+    private List<Permission> permissionList;
+    private List<UserInfo> userList;
 }
