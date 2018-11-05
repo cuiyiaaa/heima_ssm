@@ -19,6 +19,15 @@ public interface IUserService extends UserDetailsService {
     List<UserInfo> findUserInfoAll(Integer page, Integer size) throws Exception;
 
     /**
+     * 根据ID查询对应用户信息
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    UserInfo findUserInfoById(String id) throws Exception;
+
+    /**
      * 添加用户信息
      *
      * @param userInfo
@@ -27,11 +36,9 @@ public interface IUserService extends UserDetailsService {
     void saveUserInfo(UserInfo userInfo) throws Exception;
 
     /**
-     * 根据ID查询对应用户信息
-     * @param id
-     * @return
+     * 为用户添加角色
+     *
      * @throws Exception
      */
-    UserInfo findUserInfoById(String id) throws Exception;
-
+    void addRoleToUser(String userId, List<String> roleIds) throws Exception;
 }

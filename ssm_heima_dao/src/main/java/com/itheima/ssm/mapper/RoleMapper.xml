@@ -18,7 +18,13 @@
         <collection property="userList" column="id" select="com.itheima.ssm.mapper.UsersMapper.findUserInfoByRoleId"></collection>
    </resultMap>
 
+    <!--根据用户ID，查询该用户未关联的角色-->
+    <select id="findUserByIdAndAllRole" parameterType="java.lang.String" resultType="Role">
+        SELECT * FROM ROLE WHERE ID NOT IN (SELECT ROLEID FROM users_role WHERE USERID =#{userId})
+    </select>
 
+
+    <!--根据权限ID查询关系的角色信息-->
     <select id="findRoleByPermissionID" parameterType="java.lang.String" resultType="Role">
         SELECT * FROM ROLE WHERE ID IN (SELECT ROLEID FROM  role_permission WHERE PERMISSIONID=#{permissionId})
     </select>
@@ -43,5 +49,11 @@
         INSERT INTO ROLE(ROLENAME,ROLEDESC) VALUES(#{roleName},#{roleDesc})
     </insert>
 
-
+    <!--为角色添加权限-->
+    <insert id="addRoleToPermission" parameterType="java.util.Map">
+        INSERT INTO role_permission (PERMISSIONID,ROLEID)
+        <foreach collection="permIds" item="item" separator="UNION ALL">
+            SELECT #{item},#{roleId} FROM DUAL
+        </foreach>
+    </insert>
 </mapper>

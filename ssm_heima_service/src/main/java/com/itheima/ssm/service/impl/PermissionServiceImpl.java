@@ -28,6 +28,11 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    public List<Permission> findRoleByIdAndPermission(String roleId) throws Exception {
+        return mapper.findRoleByIdAndPermission(roleId);
+    }
+
+    @Override
     public void savePermission(Permission permission) throws Exception {
         mapper.savePermission(permission);
     }

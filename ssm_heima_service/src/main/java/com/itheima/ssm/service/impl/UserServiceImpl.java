@@ -42,6 +42,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void addRoleToUser(String userId, List<String> roleIds) throws Exception {
+        mapper.addRoleToUser(userId, roleIds);
+    }
+
+    @Override
     public UserInfo findUserInfoById(String id) throws Exception {
         return mapper.findUserInfoById(id);
     }
@@ -75,6 +80,7 @@ public class UserServiceImpl implements IUserService {
         List<GrantedAuthority> list = new ArrayList<>();
         for (Role role : roleList) {
             list.add(new SimpleGrantedAuthority(role.getRoleName()));
+            System.out.println("权限为：" + role.getRoleName());
         }
         return list;
     }

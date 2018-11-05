@@ -3,12 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			    http://www.springframework.org/schema/beans/spring-beans.xsd
 			    http://www.springframework.org/schema/context
 			    http://www.springframework.org/schema/context/spring-context.xsd
 			    http://www.springframework.org/schema/mvc
-			    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+			    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security.xsd
+                http://www.springframework.org/schema/aop
+                http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <security:global-method-security pre-post-annotations="enabled" jsr250-annotations="enabled"
+                                     secured-annotations="enabled"></security:global-method-security>
 
     <context:component-scan base-package="com.itheima.ssm.controller"/>
 
@@ -34,9 +43,9 @@
     <bean id="validator"
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <!-- 校验器-->
-        <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
         <!-- 指定校验使用的资源文件，如果不指定则默认使用classpath下的ValidationMessages.properties -->
-        <property name="validationMessageSource" ref="messageSource" />
+        <property name="validationMessageSource" ref="messageSource"/>
     </bean>
     <!-- 校验错误信息配置文件 -->
     <bean id="messageSource"
@@ -48,12 +57,19 @@
             </list>
         </property>
         <!-- 资源文件编码格式 -->
-        <property name="fileEncodings" value="UTF-8" />
+        <property name="fileEncodings" value="UTF-8"/>
         <!-- 对资源文件内容缓存时间，单位秒 -->
-        <property name="cacheSeconds" value="120" />
+        <property name="cacheSeconds" value="120"/>
     </bean>
 
 
     <!--放行静态资源-->
     <mvc:default-servlet-handler/>
+
+    <!--
+     支持AOP的注解支持，AOP底层使用代理技术
+     JDK动态代理，要求必须有接口
+     cglib代理，生成子类对象，proxy-target-class="true" 默认使用cglib的方式
+    -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 </beans>

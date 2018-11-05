@@ -38,6 +38,21 @@
     <insert id="saveUserInfo" parameterType="UserInfo">
         INSERT INTO USERS(EMAIL,USERNAME,PASSWORD,PHONENUM,STATUS) VALUES(#{email},#{username},#{password},#{phoneNum},#{status})
     </insert>
+    
+    
+    <insert id="addRoleToUser">
+        <!--INSERT ALL-->
+        <!--<foreach collection="roleIds" index="index" item="item">-->
+            <!--INTO users_role VALUES(#{userId},#{item})-->
+        <!--</foreach>-->
+        <!--SELECT 1 FROM DUAL-->
+
+
+        INSERT INTO users_role (USERID,ROLEID)
+        <foreach collection="roleIds" item="item" separator="UNION ALL">
+            SELECT #{userId},#{item} FROM DUAL
+        </foreach>
+    </insert>
 
 </mapper>
 

@@ -26,6 +26,11 @@
         SELECT * FROM PERMISSION
     </select>
 
+
+    <select id="findRoleByIdAndPermission" parameterType="java.lang.String" resultType="Permission">
+      SELECT * FROM PERMISSION WHERE ID NOT IN (SELECT permissionid FROM role_permission  WHERE ROLEID=#{roleId})
+    </select>
+
     <insert id="savePermission" parameterType="Permission">
         INSERT INTO PERMISSION(PERMISSIONNAME,URL) VALUES(#{permissionName} ,#{url})
     </insert>

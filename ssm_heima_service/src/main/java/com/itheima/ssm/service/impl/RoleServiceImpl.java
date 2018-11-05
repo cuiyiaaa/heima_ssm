@@ -7,7 +7,7 @@ import com.itheima.ssm.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service("roleService")
 public class RoleServiceImpl implements IRoleService {
@@ -22,8 +22,22 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
+    public List<Role> findUserByIdAndAllRole(String userId) throws Exception {
+        return mapper.findUserByIdAndAllRole(userId);
+    }
+
+    @Override
     public void saveRole(Role role) throws Exception {
         mapper.saveRole(role);
+    }
+
+    @Override
+    public void addRoleToPermission(String roleId, List<String> permIds) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleId", roleId);
+        map.put("permIds", permIds);
+
+        mapper.addRoleToPermission(map);
     }
 
     @Override

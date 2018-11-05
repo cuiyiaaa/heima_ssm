@@ -16,11 +16,13 @@ public interface IPermissionService {
     /**
      * 根据权限ID获取对应的权限信息
      *
-     * @param id
+     * @param permissionId
      * @return
      * @throws Exception
      */
     Permission findPermissionById(String permissionId) throws Exception;
+
+    List<Permission> findRoleByIdAndPermission(String roleId) throws Exception;
 
     /**
      * 添加

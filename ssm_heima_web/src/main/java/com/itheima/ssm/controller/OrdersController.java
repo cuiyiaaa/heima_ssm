@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.itheima.ssm.domain.Orders;
 import com.itheima.ssm.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ public class OrdersController {
     private IOrdersService service;
 
     @RequestMapping("/findAll")
+    @Secured("ROLE_ADMIN") //使用该注解前缀必须是ROLE_
     public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page, @RequestParam(name = "size", required = true, defaultValue = "4") Integer size) throws Exception {
         ModelAndView mv = new ModelAndView();
 

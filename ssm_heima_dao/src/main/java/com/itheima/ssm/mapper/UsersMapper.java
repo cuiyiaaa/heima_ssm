@@ -1,6 +1,7 @@
 package com.itheima.ssm.mapper;
 
 import com.itheima.ssm.domain.UserInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
@@ -48,4 +49,12 @@ public interface UsersMapper {
      * @throws Exception
      */
     List<UserInfo> findUserInfoByRoleId(String roleId) throws Exception;
+
+    /**
+     * 为用户添加角色
+     * @param userId
+     * @param roleIds
+     * @throws Exception
+     */
+    void addRoleToUser(@Param("userId") String userId, @Param("roleIds") List<String> roleIds) throws Exception;
 }

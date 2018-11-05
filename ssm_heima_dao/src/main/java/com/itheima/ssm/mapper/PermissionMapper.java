@@ -27,10 +27,17 @@ public interface PermissionMapper {
     /**
      * 根据权限ID获取对应的权限信息
      *
-     * @param id
+     * @param permissionId
      * @return
      */
-    Permission findPermissionById(String permissionId);
+    Permission findPermissionById(String permissionId) throws Exception;
+
+    /**
+     * 根据角色ID查询该角色未关联的权限
+     * @return
+     * @throws Exception
+     */
+    List<Permission> findRoleByIdAndPermission(String roleId)throws Exception;
 
     /**
      * 添加操作

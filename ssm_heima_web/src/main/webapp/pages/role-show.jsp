@@ -61,7 +61,7 @@
           href="${pageContext.request.contextPath}/plugins/bootstrap-slider/slider.css">
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 
 <div class="wrapper">
 
@@ -262,6 +262,8 @@
         $("#collapse-table").treetable({
             expandable: true
         });
+
+        $('.role').attr('id', 'admin-datalist');
     });
 
     // 设置激活菜单

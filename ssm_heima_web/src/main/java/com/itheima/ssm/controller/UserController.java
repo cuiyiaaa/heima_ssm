@@ -2,12 +2,12 @@ package com.itheima.ssm.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.itheima.ssm.domain.UserInfo;
+import com.itheima.ssm.service.IRoleService;
 import com.itheima.ssm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -22,14 +23,17 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private IUserService service;
+    private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page, @RequestParam(name = "size", required = true, defaultValue = "4") Integer size) throws Exception {
         ModelAndView mv = new ModelAndView();
 
         //获取用户所有信息
-        List<UserInfo> userList = service.findUserInfoAll(page, size);
+        List<UserInfo> userList = userService.findUserInfoAll(page, size);
 
         //存入PageHelper分页中
         PageInfo pageInfo = new PageInfo(userList);
@@ -42,7 +46,7 @@ public class UserController {
 
     @RequestMapping("/save")
     public String save(UserInfo userInfo) throws Exception {
-        service.saveUserInfo(userInfo);
+        userService.saveUserInfo(userInfo);
         return "redirect:findAll";
     }
 
@@ -51,11 +55,33 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
 
         //根据id查询用户信息
-        UserInfo userInfo = service.findUserInfoById(id);
+        UserInfo userInfo = userService.findUserInfoById(id);
 
         mv.addObject("user", userInfo);
         mv.setViewName("user-show");
         return mv;
+    }
+
+    @RequestMapping("/findUserByIdAndAllRole/{userId}")
+    public ModelAndView findUserByIdAndAllRole(@PathVariable("userId") String userId) throws Exception {
+        ModelAndView mv = new ModelAndView();
+
+        //查询角色
+        mv.addObject("roleList", roleService.findUserByIdAndAllRole(userId));
+        //将用户ID回写到页面
+        mv.addObject("userId", userId);
+
+        mv.setViewName("user-role-add");
+        return mv;
+    }
+
+
+    @RequestMapping("/addRoleToUser")
+    public String addRoleToUser(String userId, @RequestParam(name = "roleIds", required = true) String[] roleIds) throws Exception {
+
+        userService.addRoleToUser(userId, Arrays.asList(roleIds));
+
+        return "redirect:findAll";
     }
 
     @RequestMapping("/test")

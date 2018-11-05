@@ -80,7 +80,7 @@
         <section class="content-header">
             <h1>
                 用户管理
-                <small>全部用户</small>
+                <small>添加角色表单</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/index.jsp"><i
@@ -88,7 +88,7 @@
                 <li><a
                         href="${pageContext.request.contextPath}/user/findAll">用户管理</a></li>
 
-                <li class="active">全部用户</li>
+                <li class="active">添加角色表单</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -101,77 +101,49 @@
                 </div>
 
                 <div class="box-body">
-
-                    <!-- 数据表格 -->
-                    <div class="table-box">
-
-                        <!--工具栏-->
-                        <div class="pull-left">
-                            <div class="form-group form-inline">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="新建">
-                                        <i class="fa fa-file-o"></i> 新建
-                                    </button>
-
-                                    <button type="button" class="btn btn-default" title="刷新">
-                                        <i class="fa fa-refresh"></i> 刷新
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm"
-                                       placeholder="搜索"> <span
-                                    class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </div>
-                        <!--工具栏/-->
-
-                        <!--数据列表-->
-                        <div class="tab-pane" id="tab-treetable">
-                            <table id="collapse-table"
-                                   class="table table-bordered table-hover dataTable">
+                    <form action="${pageContext.request.contextPath}/user/addRoleToUser" method="post">
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+                            <!--数据列表-->
+                            <table id="dataList"
+                                   class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                 <tr>
-                                    <th>名称</th>
-                                    <th>描述</th>
+                                    <th class="" style="padding-right: 0px"><input
+                                            id="selall" type="checkbox" class="icheckbox_square-blue">
+                                    </th>
+                                    <th class="sorting_asc">ID</th>
+                                    <th class="sorting_desc">角色名称</th>
+                                    <th class="sorting_asc sorting_asc_disabled">描述</th>
                                 </tr>
                                 </thead>
-
-                                <tr data-tt-id="0">
-                                    <td colspan="2">${user.username}</td>
-                                </tr>
-
                                 <tbody>
-                                <c:forEach items="${user.roleList}" var="role" varStatus="vs">
-                                    <tr data-tt-id="${vs.index+1}" data-tt-parent-id="0" >
+                                <input type="hidden" name="userId" value="${userId}">
+                                <c:forEach items="${roleList}" var="role">
+                                    <tr>
+                                        <td><input name="roleIds" type="checkbox" value="${role.id}"></td>
+                                        <td>${role.id }</td>
                                         <td>${role.roleName }</td>
-                                        <td>${role.roleDesc }</td>
+                                        <td>${role.roleDesc}</td>
                                     </tr>
-                                    <c:forEach items="${role.permissionList}" var="permission">
-                                        <tr data-tt-id="1-1" data-tt-parent-id="${vs.index+1}">
-                                            <td>${permission.permissionName}</td>
-                                            <td>${permission.url}</td>
-                                        </tr>
-                                    </c:forEach>
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <!--数据列表/-->
+                            <div class="box-tools text-center">
+                                <button type="submit" class="btn bg-maroon">保存</button>
+                                <button type="button" class="btn bg-default"
+                                        onclick="history.back(-1);">返回
+                                </button>
+                            </div>
+
                         </div>
-
-
-
-                        <!--数据列表/-->
-
-                    </div>
-                    <!-- 数据表格 /-->
-
+                        <!-- 数据表格 /-->
+                    </form>
                 </div>
                 <!-- /.box-body -->
 
                 <!-- .box-footer-->
-
                 <!-- /.box-footer-->
 
             </div>
@@ -232,7 +204,8 @@
 <script src="${pageContext.request.contextPath}/plugins/bootstrap-markdown/js/to-markdown.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/ckeditor/ckeditor.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/input-mask/jquery.inputmask.js"></script>
-<script src="${pageContext.request.contextPath}/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script
+        src="${pageContext.request.contextPath}/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -244,6 +217,19 @@
 <script src="${pageContext.request.contextPath}/plugins/ionslider/ion.rangeSlider.min.js"></script>
 <script src="${pageContext.request.contextPath}/plugins/bootstrap-slider/bootstrap-slider.js"></script>
 <script>
+
+    $(function () {
+        //设置下拉列表与每页显示的页数同步
+        $('#select_PageSize').val(${pageInfo.pageSize});
+        $('.userInfo').attr('id', 'admin-datalist');
+    });
+
+    //当下列列表变化时，每页的页数也随之变化
+    $('#select_PageSize').change(function () {
+        window.location.href = "${pageContext.request.contextPath}/role/findAll?page=1&size=" + $(this).val();
+    });
+
+
     $(document).ready(function () {
         // 选择框
         $(".select2").select2();
@@ -252,11 +238,6 @@
         $(".textarea").wysihtml5({
             locale: 'zh-CN'
         });
-        $("#collapse-table").treetable({
-            expandable: true
-        });
-
-        $('.userInfo').attr('id', 'admin-datalist');
     });
 
     // 设置激活菜单
@@ -268,27 +249,40 @@
         }
     }
 
-    $(document).ready(function () {
+    $(document)
+        .ready(
+            function () {
 
-        // 激活导航位置
-        setSidebarActive("admin-datalist");
+                // 激活导航位置
+                setSidebarActive("admin-datalist");
 
-        // 列表按钮
-        $("#dataList td input[type='checkbox']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            increaseArea: '20%'
-        });
-        // 全选操作
-        $("#selall").click(function () {
-            var clicks = $(this).is(':checked');
-            if (!clicks) {
-                $("#dataList td input[type='checkbox']").iCheck("uncheck");
-            } else {
-                $("#dataList td input[type='checkbox']").iCheck("check");
-            }
-            $(this).data("clicks", !clicks);
-        });
-    });
+                // 列表按钮
+                $("#dataList td input[type='checkbox']")
+                    .iCheck(
+                        {
+                            checkboxClass: 'icheckbox_square-blue',
+                            increaseArea: '20%'
+                        });
+                // 全选操作
+                $("#selall")
+                    .click(
+                        function () {
+                            var clicks = $(this).is(
+                                ':checked');
+                            if (!clicks) {
+                                $(
+                                    "#dataList td input[type='checkbox']")
+                                    .iCheck(
+                                        "uncheck");
+                            } else {
+                                $(
+                                    "#dataList td input[type='checkbox']")
+                                    .iCheck("check");
+                            }
+                            $(this).data("clicks",
+                                !clicks);
+                        });
+            });
 </script>
 </body>
 

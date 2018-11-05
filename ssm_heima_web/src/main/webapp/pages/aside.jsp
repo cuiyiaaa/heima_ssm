@@ -29,23 +29,33 @@
 				</span>
             </a>
                 <ul class="treeview-menu">
-                    <li class="userInfo">
-                        <a href="${pageContext.request.contextPath}/user/findAll?page=1&size=4"> <i
-                                class="fa fa-circle-o"></i> 用户管理
-                        </a>
-                    </li>
+
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <li class="userInfo">
+                            <a href="${pageContext.request.contextPath}/user/findAll?page=1&size=4"> <i
+                                    class="fa fa-circle-o"></i> 用户管理
+                            </a>
+                        </li>
+                    </sec:authorize>
+
+
                     <li class="role">
                         <a href="${pageContext.request.contextPath}/role/findAll?page=1&size=4"> <i
                                 class="fa fa-circle-o"></i> 角色管理
                         </a>
                     </li>
-                    <li class="permssion">
-                        <a href="${pageContext.request.contextPath}/permission/findAll">
-                            <i class="fa fa-circle-o"></i> 资源权限管理
-                        </a>
-                    </li>
+
+                    <sec:authorize access="hasRole('ROLE_USER')">
+                        <li class="permssion">
+                            <a href="${pageContext.request.contextPath}/permission/findAll">
+                                <i class="fa fa-circle-o"></i> 资源权限管理
+                            </a>
+                        </li>
+                    </sec:authorize>
+
+
                     <li class="sysLog">
-                        <a href="${pageContext.request.contextPath}/sysLog/findAll"> <i
+                        <a href="${pageContext.request.contextPath}/sysLog/findAll?page=1&size=10"> <i
                                 class="fa fa-circle-o"></i> 访问日志
                         </a>
                     </li>

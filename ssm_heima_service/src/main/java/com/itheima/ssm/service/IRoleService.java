@@ -14,6 +14,13 @@ public interface IRoleService {
     List<Role> findRoleAll(Integer page, Integer size) throws Exception;
 
     /**
+     * 根据用户ID，查询该用户未关联的角色
+     *
+     * @return
+     */
+    List<Role> findUserByIdAndAllRole(String userId) throws Exception;
+
+    /**
      * 添加角色信息
      *
      * @param role
@@ -21,8 +28,11 @@ public interface IRoleService {
      */
     void saveRole(Role role) throws Exception;
 
+    void addRoleToPermission(String roleId, List<String> permIds);
+
     /**
      * 根据角色ID查询对应角色信息
+     *
      * @param id
      * @return
      * @throws Exception

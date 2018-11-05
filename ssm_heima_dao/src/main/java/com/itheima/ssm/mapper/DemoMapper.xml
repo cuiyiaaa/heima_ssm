@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.mapper.DemoMapper">
+
+
+    <insert id="add" parameterType="java.util.HashMap">
+        INSERT ALL
+        <foreach collection="ids" index="index" item="item">
+            INTO DEMO(id,name) VALUES(#{item},#{name})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+    <insert id="save">
+      INSERT INTO DEMO (id,name)
+      <foreach collection="ids" item="item" separator="UNION ALL">
+          SELECT #{item},#{name} FROM DUAL
+      </foreach>
+    </insert>
+
+
+    <insert id="saveDemo" parameterType="java.util.List" >
+        INSERT INTO DEMO (id)
+        <foreach collection="list" item="item" separator="UNION ALL">
+            SELECT #{item} FROM DUAL
+        </foreach>
+    </insert>
+
+    <insert id="saveDemo2" parameterType="java.util.ArrayList" >
+        INSERT INTO DEMO (id)
+        <foreach collection="array" item="item" separator="UNION ALL">
+            SELECT #{item} FROM DUAL
+        </foreach>
+    </insert>
+</mapper>
